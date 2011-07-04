@@ -89,3 +89,6 @@ BOARD_UMS_LUNFILE := /sys/devices/platform/msm_hsusb/gadget/lun0/file
 BOARD_HAVE_FM_RADIO := true
 BOARD_GLOBAL_CFLAGS += -DHAVE_FM_RADIO
 TARGET_SF_NEEDS_REAL_DIMENSIONS := true
+
+TARGET_PREBUILT_KERNEL := device/lge/thunderg/kernel_test
+#TARGET_PREBUILT_KERNEL := device/lge/thunderg/kernel_xionia
