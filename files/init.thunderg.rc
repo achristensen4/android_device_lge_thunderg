@@ -11,9 +11,9 @@ on boot
     chmod 0660 /dev/ttyHS0
     chmod 0666 /dev/msm_snd
     
-#    chmod 0666 /dev/msm_camera/config0
-#    chmod 0666 /dev/msm_camera/control0
-#    chmod 0666 /dev/msm_camera/frame0
+     chmod 0666 /dev/msm_camera/config0
+     chmod 0666 /dev/msm_camera/control0
+     chmod 0666 /dev/msm_camera/frame0
     
 ## VIBRATOR
     chmod 0666 /sys/class/timed_output/vibrator/amp
@@ -100,7 +100,6 @@ on boot
 
 service bdaddr /system/bin/bdaddr_read
     user root
-    disabled
     oneshot
 
 on property:init.svc.bootanim=running
@@ -109,7 +108,6 @@ on property:init.svc.bootanim=running
 service hciattach /system/bin/brcm_patchram_plus -d --baudrate 3000000 --patchram /system/bin/BCM4325D1_004.002.004.0218.0248.hcd --enable_hci /dev/ttyHS0
     user bluetooth
     group bluetooth net_bt_admin
-    disabled
     oneshot
 
 service qmuxd /system/bin/qmuxd 
@@ -119,15 +117,12 @@ service ami304d /system/bin/ami304d
 service wpa_supplicant /system/bin/wpa_supplicant -Dwext -iwlan0 -c/data/misc/wifi/wpa_supplicant.conf #-dd
     socket wpa_wlan0 dgram 660 wifi wifi
     group system wifi inet
-    disabled
     oneshot
 
 service iprenew_wlan0 /system/bin/dhcpcd -n wlan0
-    disabled
     oneshot
 
 service dhcpcd_wlan0 /system/bin/dhcpcd -BKL wlan0
-    disabled
     oneshot
 
 on property:init.svc.wpa_supplicant=stopped
@@ -135,7 +130,6 @@ on property:init.svc.wpa_supplicant=stopped
 
 # bugreport is triggered by the KEY_VOLUME_DOWN and KEY_MENU keycodes
 service bugreport /system/bin/logwrapper /system/bin/dumpstate -d -v -o /sdcard/bugreports/bugreport
-    disabled
     oneshot
     keycodes 114 139
 
@@ -149,27 +143,23 @@ service wiperiface /system/bin/wiperiface
     group qcom_oncrpc
     oneshot
 
-#service rmt_storage /system/bin/rmt_storage /dev/block/mmcblk0p10 /dev/block/mmcblk0p11
-#    user root
-#    socket port_bridge stream 660 root radio
-#    disabled
+service rmt_storage /system/bin/rmt_storage /dev/block/mmcblk0p10 /dev/block/mmcblk0p11
+user root
+socket port_bridge stream 660 root radio
 
-#service port-bridge /system/bin/port-bridge /dev/smd0 /dev/ttyGS0
-#    socket port_bridge stream 660 root radio
-#    disabled
+service port-bridge /system/bin/port-bridge /dev/smd0 /dev/ttyGS0
+socket port_bridge stream 660 root radio
 
-#on property:init.svc.bootanim=stopped
-#    start port-bridge
+on property:init.svc.bootanim=stopped
+start port-bridge
 
-#service netmgrd /system/bin/netmgrd -E
-#    disabled
+service netmgrd /system/bin/netmgrd -E
 
-#on property:ro.use_data_netmgrd=true
-#    start netmgrd
+on property:ro.use_data_netmgrd=true
+start netmgrd
 
 service gadget_id /system/bin/gadget_id
     user root
-    disabled
     oneshot
 
 on property:persist.service.adb.enable=1
